@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
-import { Outlet, useNavigate, useLocation, Navigate } from 'react-router-dom';
-import { useApp } from '@/contexts/AppContext';
-import { useTranslation } from '@/lib/translations';
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import React, { useState } from "react";
+import {
+  Outlet,
+  useNavigate,
+  useLocation,
+  Navigate,
+  Link,
+} from "react-router-dom";
+import { useApp } from "@/contexts/AppContext";
+import { useTranslation } from "@/lib/translations";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,7 +18,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   LayoutDashboard,
   Briefcase,
@@ -25,30 +31,39 @@ import {
   Moon,
   LogOut,
   Globe,
-} from 'lucide-react';
+} from "lucide-react";
 
 export const DashboardLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { isAuthenticated, user, logout, theme, toggleTheme, language, changeLanguage } = useApp();
+  const {
+    isAuthenticated,
+    user,
+    logout,
+    theme,
+    toggleTheme,
+    language,
+    changeLanguage,
+  } = useApp();
   const t = useTranslation(language);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  
+
   if (!isAuthenticated) {
     return <Navigate to="/" replace />;
   }
-  
+
   const navigation = [
-    { name: t('dashboard'), href: '/dashboard', icon: LayoutDashboard },
-    { name: t('projects'), href: '/projects', icon: Briefcase },
-    { name: t('map'), href: '/map', icon: Map },
-    { name: t('feedback'), href: '/feedback', icon: MessageSquare },
-    { name: t('reports'), href: '/reports', icon: BarChart3 },
-    { name: t('profile'), href: '/profile', icon: User },
+    { name: t("dashboard"), href: "/dashboard", icon: LayoutDashboard },
+    { name: t("projects"), href: "/projects", icon: Briefcase },
+    { name: t("map"), href: "/map", icon: Map },
+    { name: t("feedback"), href: "/feedback", icon: MessageSquare },
+    { name: t("reports"), href: "/reports", icon: BarChart3 },
+    { name: t("profile"), href: "/profile", icon: User },
   ];
-  
-  const isActive = (path) => location.pathname === path || location.pathname.startsWith(path + '/');
-  
+
+  const isActive = (path) =>
+    location.pathname === path || location.pathname.startsWith(path + "/");
+
   const NavLinks = ({ mobile = false }) => (
     <nav className="space-y-1">
       {navigation.map((item) => {
@@ -63,8 +78,8 @@ export const DashboardLayout = () => {
             }}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
               active
-                ? 'bg-primary text-primary-foreground'
-                : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:bg-muted hover:text-foreground"
             }`}
           >
             <Icon className="w-5 h-5" />
@@ -74,13 +89,13 @@ export const DashboardLayout = () => {
       })}
     </nav>
   );
-  
+
   const languages = [
-    { code: 'pt', label: 'Português', flag: '🇧🇷' },
-    { code: 'en', label: 'English', flag: '🇺🇸' },
-    { code: 'es', label: 'Español', flag: '🇪🇸' },
+    { code: "pt", label: "Português", flag: "🇧🇷" },
+    { code: "en", label: "English", flag: "🇺🇸" },
+    { code: "es", label: "Español", flag: "🇪🇸" },
   ];
-  
+
   return (
     <div className="min-h-screen bg-background">
       {/* Desktop Sidebar */}
@@ -88,24 +103,34 @@ export const DashboardLayout = () => {
         <div className="flex flex-col flex-1 min-h-0 border-r border-border bg-card">
           {/* Logo */}
           <div className="flex items-center h-16 px-6 border-b border-border">
-            <div className="flex items-center gap-3">
+            <Link to="/dashboard" className="flex items-center gap-3 group">
               <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 text-primary-foreground">
-                  <path d="M12 2L2 7v10c0 5.523 4.477 10 10 10s10-4.477 10-10V7L12 2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  className="w-6 h-6 text-primary-foreground"
+                >
+                  <path
+                    d="M12 2L2 7v10c0 5.523 4.477 10 10 10s10-4.477 10-10V7L12 2z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </div>
               <div>
                 <h1 className="font-bold text-lg leading-none">Elevatos</h1>
                 <p className="text-xs text-muted-foreground">Manager</p>
               </div>
-            </div>
+            </Link>
           </div>
-          
+
           {/* Navigation */}
           <div className="flex-1 px-4 py-6 overflow-y-auto">
             <NavLinks />
           </div>
-          
+
           {/* User Info */}
           <div className="p-4 border-t border-border">
             <div className="flex items-center gap-3 px-2 py-2 text-sm">
@@ -116,13 +141,15 @@ export const DashboardLayout = () => {
               </Avatar>
               <div className="flex-1 min-w-0">
                 <p className="font-medium truncate">{user.name}</p>
-                <p className="text-xs text-muted-foreground truncate">{user.role}</p>
+                <p className="text-xs text-muted-foreground truncate">
+                  {user.role}
+                </p>
               </div>
             </div>
           </div>
         </div>
       </aside>
-      
+
       {/* Main Content */}
       <div className="lg:pl-64 flex flex-col flex-1">
         {/* Header */}
@@ -140,17 +167,29 @@ export const DashboardLayout = () => {
                 <div className="flex items-center h-16 px-6 border-b border-border">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                      <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 text-primary-foreground">
-                        <path d="M12 2L2 7v10c0 5.523 4.477 10 10 10s10-4.477 10-10V7L12 2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        className="w-6 h-6 text-primary-foreground"
+                      >
+                        <path
+                          d="M12 2L2 7v10c0 5.523 4.477 10 10 10s10-4.477 10-10V7L12 2z"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
                       </svg>
                     </div>
                     <div>
-                      <h1 className="font-bold text-lg leading-none">Elevatos</h1>
+                      <h1 className="font-bold text-lg leading-none">
+                        Elevatos
+                      </h1>
                       <p className="text-xs text-muted-foreground">Manager</p>
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Navigation */}
                 <div className="flex-1 px-4 py-6 overflow-y-auto">
                   <NavLinks mobile />
@@ -158,9 +197,9 @@ export const DashboardLayout = () => {
               </div>
             </SheetContent>
           </Sheet>
-          
+
           <div className="flex-1" />
-          
+
           {/* Language Selector */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -169,13 +208,13 @@ export const DashboardLayout = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>{t('language')}</DropdownMenuLabel>
+              <DropdownMenuLabel>{t("language")}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {languages.map((lang) => (
                 <DropdownMenuItem
                   key={lang.code}
                   onClick={() => changeLanguage(lang.code)}
-                  className={language === lang.code ? 'bg-muted' : ''}
+                  className={language === lang.code ? "bg-muted" : ""}
                 >
                   <span className="mr-2">{lang.flag}</span>
                   {lang.label}
@@ -183,12 +222,16 @@ export const DashboardLayout = () => {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-          
+
           {/* Theme Toggle */}
           <Button variant="ghost" size="icon" onClick={toggleTheme}>
-            {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+            {theme === "light" ? (
+              <Moon className="w-5 h-5" />
+            ) : (
+              <Sun className="w-5 h-5" />
+            )}
           </Button>
-          
+
           {/* User Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -203,24 +246,33 @@ export const DashboardLayout = () => {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">{user.name}</p>
-                  <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                  <p className="text-sm font-medium leading-none">
+                    {user.name}
+                  </p>
+                  <p className="text-xs leading-none text-muted-foreground">
+                    {user.email}
+                  </p>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => navigate('/profile')}>
+              <DropdownMenuItem onClick={() => navigate("/profile")}>
                 <User className="mr-2 h-4 w-4" />
-                <span>{t('profile')}</span>
+                <span>{t("profile")}</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => { logout(); navigate('/'); }}>
+              <DropdownMenuItem
+                onClick={() => {
+                  logout();
+                  navigate("/");
+                }}
+              >
                 <LogOut className="mr-2 h-4 w-4" />
-                <span>{t('logout')}</span>
+                <span>{t("logout")}</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
-        
+
         {/* Page Content */}
         <main className="flex-1 p-4 lg:p-8">
           <Outlet />
